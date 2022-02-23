@@ -2,8 +2,8 @@ import 'location.dart';
 import 'networking.dart';
 import '../auth/secrets.dart';
 
-const String apiKey = OpenWeatherAPIKey;
-const String OpenWeatherMapURL =
+const String apiKey = openWeatherAPIKey;
+const String openWeatherMapURL =
     'https://api.openweathermap.org/data/2.5/weather';
 const String weatherUnits = 'metric';
 
@@ -15,7 +15,7 @@ class WeatherModel {
     double longitude = location.longitude ?? -83.9232;
 
     NetworkHelper networkHelper = NetworkHelper(
-        '$OpenWeatherMapURL?lat=$latitude&lon=$longitude&appid=$apiKey&units=$weatherUnits');
+        '$openWeatherMapURL?lat=$latitude&lon=$longitude&appid=$apiKey&units=$weatherUnits');
 
     var weatherData = await networkHelper.getData();
 
