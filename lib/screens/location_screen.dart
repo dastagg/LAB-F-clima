@@ -16,7 +16,7 @@ class _LocationScreenState extends State<LocationScreen> {
   String weatherIcon = '🤷‍';
   String weatherText = 'Unknown';
 
-  WeatherModel weatherModel = WeatherModel();
+  WeatherModel weather = WeatherModel();
 
   @override
   void initState() {
@@ -27,14 +27,20 @@ class _LocationScreenState extends State<LocationScreen> {
 
   void updateUI(dynamic weatherData) {
     setState(() {
+      if (weatherData == null) {
+        temperature = 0;
+        weatherIcon = 'Error';
+        weatherText = '';
+        return;
+      }
       double temp = weatherData["main"]["temp"];
       temperature = temp.toInt();
 
       int condition = weatherData["weather"][0]["id"];
-      weatherIcon = weatherModel.getWeatherIcon(condition);
+      weatherIcon = weather.getWeatherIcon(condition);
 
       String cityName = weatherData["name"];
-      String msgText = weatherModel.getMessage(temperature);
+      String msgText = weather.getMessage(temperature);
       weatherText = '$msgText in $cityName';
     });
   }
@@ -65,7 +71,10 @@ class _LocationScreenState extends State<LocationScreen> {
                       primary: Colors.white,
                       backgroundColor: Colors.blue,
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      var weatherData = await weather.getLocationWeather();
+                      updateUI(weatherData);
+                    },
                     child: const Icon(
                       Icons.near_me,
                       size: 50.0,
