@@ -4,7 +4,7 @@ import '../services/weather.dart';
 import 'city_screen.dart';
 
 class LocationScreen extends StatefulWidget {
-  final locationWeather;
+  final dynamic locationWeather;
 
   const LocationScreen({this.locationWeather, Key? key}) : super(key: key);
 
@@ -70,7 +70,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   TextButton(
                     style: TextButton.styleFrom(
                       primary: Colors.white,
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.transparent,
                     ),
                     onPressed: () async {
                       var weatherData = await weather.getLocationWeather();
@@ -84,10 +84,10 @@ class _LocationScreenState extends State<LocationScreen> {
                   TextButton(
                     style: TextButton.styleFrom(
                       primary: Colors.white,
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.transparent,
                     ),
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: () async {
+                      var typedName = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
@@ -95,6 +95,11 @@ class _LocationScreenState extends State<LocationScreen> {
                           },
                         ),
                       );
+                      if (typedName != null) {
+                        var weatherData = await weather.getCityWeather(
+                            typedName);
+                        updateUI(weatherData);
+                      }
                     },
                     child: const Icon(
                       Icons.location_city,
@@ -106,6 +111,7 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
                       '$temperature°',
@@ -122,7 +128,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 padding: const EdgeInsets.only(right: 15.0),
                 child: Text(
                   weatherText,
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.center,
                   style: kMessageTextStyle,
                 ),
               ),
