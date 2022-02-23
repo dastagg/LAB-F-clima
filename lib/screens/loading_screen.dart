@@ -1,8 +1,9 @@
-import 'package:clima/screens/location_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import '../services/location.dart';
 import '../services/networking.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'location_screen.dart';
 import '../auth/secrets.dart';
 
 const String apiKey = OpenWeatherAPIKey;
